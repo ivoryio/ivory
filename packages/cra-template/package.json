@@ -1,0 +1,25 @@
+{
+  "name": "@ivoryio/cra-template",
+  "version": "1.0.0",
+  "description": "An Ivory custom template for create-react-app",
+  "main": "template.json",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ivoryio/ivory.git",
+    "directory": "packages/cra-template"
+  },
+  "author": "Thinslices <developers@thinslices.com>",
+  "license": "GPL-3.0-or-later",
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/ivoryio/ivory/issues"
+  },
+  "homepage": "https://github.com/ivoryio/ivory#readme",
+  "keywords": [
+    "cra",
+    "create-react-app",
+    "template",
+    "react",
+    "cra-template"
+  ]
+}

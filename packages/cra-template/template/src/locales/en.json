@@ -1,0 +1,79 @@
+{
+  "global": {
+    "showToast": "Show toast",
+    "infoToast": "This is an info toast",
+    "signOut": "Sign out"
+  },
+  "home": {
+    "hello": "Hello",
+    "introduction": "We're happy to introduce you to the features of {{project}}",
+    "topFeature": "Here is our top feature",
+    "topFeature_plural": "Here are our top {{count}} features"
+  },
+  "dashboard": {
+    "loggedIn": "You are logged in"
+  },
+  "features": {
+    "ui": "UI, components and theming",
+    "i18n": "Internationalization",
+    "auth": "User authentication",
+    "codeQuality": "Code quality tools"
+  },
+  "auth": {
+    "labels": {
+      "password": "Password",
+      "newPassword": "New Password",
+      "username": "Username",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "code": "Code",
+      "confirmationCode": "Confirmation Code"
+    },
+    "signIn": {
+      "header": "Sign in to your account",
+      "errors": {},
+      "actions": {
+        "signIn": "Sign in",
+        "backToSignIn": "Back to sign in",
+        "forgotPassword": "Forgot password?",
+        "signUp": "Sign up"
+      }
+    },
+    "signUp": {
+      "header": "Create a new account",
+      "errors": {},
+      "existingAccount": "Already have an account?",
+      "actions": {
+        "create": "Create account",
+        "signIn": "Sign in"
+      }
+    },
+    "confirmSignUp": {
+      "header": "Confirm your account",
+      "errors": {},
+      "success": "You'r account is confirmed. You can now log in.",
+      "actions": {
+        "confirm": "Confirm",
+        "backToSignIn": "Back to sign in",
+        "resend": "Resend code"
+      }
+    },
+    "forgotPassword": {
+      "headerRequest": "Forgot password?",
+      "headerReset": "Reset your password",
+      "errors": {},
+      "actions": {
+        "sendCode": "Send code",
+        "resendCode": "Resend code",
+        "submit": "Save"
+      }
+    },
+    "requireNewPassword": {
+      "header": "Change your password",
+      "errors": {},
+      "actions": {
+        "change": "Change"
+      }
+    }
+  }
+}

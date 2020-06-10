@@ -1,0 +1,13 @@
+{
+  "editor.autoClosingQuotes": "always",
+  "editor.colorDecorators": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.matchBrackets": "always",
+  "eslint.alwaysShowStatus": false,
+  "eslint.enable": true,
+  "eslint.packageManager": "yarn",
+  "git.allowForcePush": false,
+  "git.fetchOnPull": true,
+  "git.showProgress": true,
+  "git.branchWhitespaceChar": "-"
+}

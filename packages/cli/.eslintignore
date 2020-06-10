@@ -1,0 +1,6 @@
+docs/
+bin/
+node_modules/
+scripts/
+tests/
+lib/

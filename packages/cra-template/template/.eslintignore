@@ -1,0 +1,7 @@
+.vscode
+node_modules/
+**/node_modules/
+build
+**/build
+serviceWorker.ts
+styleguide.config.js

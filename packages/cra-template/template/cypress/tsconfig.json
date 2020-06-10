@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "strict": true,
+    "types": ["cypress"]
+  },
+  "include": ["../node_modules/cypress", "*/*.ts"]
+}

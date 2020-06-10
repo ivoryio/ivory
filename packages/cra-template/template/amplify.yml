@@ -1,0 +1,41 @@
+version: 0.1
+backend:
+  phases:
+    build:
+      commands:
+        - amplify --version
+        - amplifyPush --simple
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - yarn install
+        - yarn i18n
+    build:
+      commands:
+        - yarn build
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+test:
+  phases:
+    preTest:
+      commands:
+        - yarn install
+        - yarn add mocha mochawesome mochawesome-merge mochawesome-report-generator mailslurp-client
+    test:
+      commands:
+        - npx start-server-and-test start 3000 'cypress run --reporter mochawesome --reporter-options "reportDir=cypress/report/mochawesome-report,overwrite=false,html=false,json=true,timestamp=mmddyyyy_HHMMss"'
+    postTest:
+      commands:
+        - npx mochawesome-merge cypress/report/mochawesome-report/mochawesome*.json > cypress/report/mochawesome.json
+  artifacts:
+    baseDirectory: cypress
+    configFilePath: '**/mochawesome.json'
+    files:
+      - '**/*.png'
+      - '**/*.mp4'
