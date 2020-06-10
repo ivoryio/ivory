@@ -1,0 +1,32 @@
+{
+  "name": "ivory-monorepo",
+  "version": "1.0.0",
+  "description": "Ivory CLI 🐘 is a tool for developing, testing and deploying Web SPAs (Single Page Applications) using the Ivory recommended template and AWS Amplify.",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivoryio/ivory.git"
+  },
+  "author": "Thinslices",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ivoryio/ivory/issues"
+  },
+  "keywords": [
+    "starterkit",
+    "amplify"
+  ],
+  "homepage": "https://github.com/ivoryio/ivory#readme",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}
