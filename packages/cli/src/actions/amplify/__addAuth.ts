@@ -1,20 +1,22 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { spawn, ChildProcess } from 'child_process'
+import { spawn, ChildProcess, stream } from 'child_process'
 
 export const amplifyAddAuth = (): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
     const addProcess = spawn('amplify', ['add', 'auth'])
-    const questionExcerpts = [
-      'Do you want to use the default authentication',
-      'How do you want users to be able to sign in?',
-      'Do you want to configure advanced settings?',
+    const ENTER = '\n'
+    const DOWN_ARROW = '\u001b\u005B\u0042'
+
+    const qas = [
+      { question: 'Do you want to use the default authentication', answer: ENTER },
+      { question: 'How do you want users to be able to sign in?', answer: DOWN_ARROW + ENTER },
+      { question: 'Do you want to configure advanced settings?', answer: ENTER },
     ]
-    const answers = ['\n', '\u001b\u005B\u0042\n', '\n']
 
-    answerChildProcessQuestions({ childProcess: addProcess, questionExcerpts, answers })
+    answerChildProcessQuestions({ childProcess: addProcess, qas })
 
-    addProcess.stderr.on('data', data => {
+    addProcess.stderr.on('data', (data: stream.Readable) => {
       reject(`Auth integration failed: ${data}`)
     })
 
@@ -24,16 +26,12 @@ export const amplifyAddAuth = (): Promise<void> => {
   })
 }
 
-export function answerChildProcessQuestions({
-  childProcess,
-  questionExcerpts,
-  answers,
-}: ChildQAParametersInterface) {
-  const alreadyAnswered = answers.map(() => false)
+export function answerChildProcessQuestions({ childProcess, qas }: ChildQAParametersInterface) {
+  const alreadyAnswered = qas.map(() => false)
 
-  childProcess!.stdout!.on('data', data => {
-    questionExcerpts.forEach((excerpt, index) => {
-      if (`${data}`.indexOf(excerpt) > 0) {
+  childProcess!.stdout!.on('data', (data: stream.Readable) => {
+    qas.forEach(({ question }, index) => {
+      if (`${data}`.indexOf(question) > 0) {
         answer(index, `${data}`)
       }
     })
@@ -42,7 +40,7 @@ export function answerChildProcessQuestions({
   function answer(index: number, message: string) {
     if (!alreadyAnswered[index]) {
       setTimeout(() => {
-        childProcess!.stdin!.write(answers[index])
+        childProcess!.stdin!.write(qas[index].answer)
         alreadyAnswered[index] = true
       }, 100)
     } else {
@@ -53,6 +51,10 @@ export function answerChildProcessQuestions({
 
 interface ChildQAParametersInterface {
   childProcess: ChildProcess
-  questionExcerpts: Array<string>
-  answers: Array<string>
+  qas: Array<QA>
+}
+
+interface QA {
+  question: string
+  answer: string
 }
