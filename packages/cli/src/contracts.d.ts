@@ -36,3 +36,7 @@ interface CreateCommandActions {
   retrieveRepositoryUrl: (projectName: string) => Promise<string>
   retrieveAmplifyAppId: (projectName: string) => Promise<string>
 }
+
+interface AddEntityCommandActions {
+  copyModuleTemplate: (moduleName: string) => void
+}

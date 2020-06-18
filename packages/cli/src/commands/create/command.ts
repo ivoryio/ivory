@@ -14,10 +14,11 @@ export const create = ({
   deployInfrastructure,
   inquireRepositoryInfo,
   retrieveRepositoryUrl,
-}: CreateCommandActions) => async (): Promise<void> => {
-  const projectName = await inquireProjectName()
-  const awsProfile = await inquireAwsProfile()
-  const repositoryInfo = await inquireRepositoryInfo()
+}: CreateCommandActions) => async (projectNameParam: string, params: any): Promise<void> => {
+  console.log(projectNameParam, params)
+  const projectName = projectNameParam ?? await inquireProjectName()
+  const awsProfile = params.awsProfile ?? await inquireAwsProfile()
+  const repositoryInfo = params.repo ?? await inquireRepositoryInfo()
 
   createReactApp(projectName)
   configureApp({ projectName, awsProfile, repositoryInfo })

@@ -1,2 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export const add = (/*dependencies: any */) => (/* input_data : any */) => {}
+export const add = ({ copyModuleTemplate }: AddEntityCommandActions) => (input_data: any) => {
+  // console.log('Ivory add', input_data)
+  copyModuleTemplate('ui-components')
+}
