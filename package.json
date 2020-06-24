@@ -25,8 +25,5 @@
     "starterkit",
     "amplify"
   ],
-  "homepage": "https://github.com/ivoryio/ivory#readme",
-  "devDependencies": {
-    "lerna": "^3.22.1"
-  }
+  "homepage": "https://github.com/ivoryio/ivory#readme"
 }
