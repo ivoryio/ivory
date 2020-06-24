@@ -1,6 +1,6 @@
 {
   "name": "@ivoryio/ui-components",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.1-alpha.2",
   "description": "Ivory components used in the Ivory templates",
   "main": "index.js",
   "private": true

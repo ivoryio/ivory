@@ -1,6 +1,6 @@
 {
   "name": "ivory-monorepo",
-  "version": "1.0.0",
+  "version": "1.0.1-alpha.2",
   "description": "Ivory CLI 🐘 is a tool for developing, testing and deploying Web SPAs (Single Page Applications) using the Ivory recommended template and AWS Amplify.",
   "main": "index.js",
   "private": true,
