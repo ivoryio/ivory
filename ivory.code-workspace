@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "packages/cli"
+		},
+		{
+			"path": "packages/cra-template"
+		},
+		{
+			"path": "packages/ui-components"
+		},
+		{
+			"path": "packages/auth"
+		}
+	],
+	"settings": {
+		"eslint.alwaysShowStatus": false,
+		"git.allowForcePush": false,
+		"javascript.autoClosingTags": true,
+		"javascript.format.enable": true,
+		"javascript.validate.enable": true
+	}
+}

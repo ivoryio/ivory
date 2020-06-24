@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { t, i18nKeys } from 'locales/i18n'
 import { useToast } from 'hooks/useToast'
 
-import { DynamicForm } from 'app/components'
+import { DynamicForm } from '@ui-components'
 import { useConfirmSignUp } from '../hooks'
 import { confirmSignUpLayout, confirmSignUpActions } from '../constants'
 

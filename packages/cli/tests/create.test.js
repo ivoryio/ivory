@@ -4,6 +4,7 @@ const { create } = require('../lib/commands/create/command')
 const doNothingActions = {
   gitPush: () => {},
   gitConfig: () => {},
+  addCommand: () => {},
   initAmplify: () => {},
   amplifyPush: () => {},
   gitCommitAll: () => {},

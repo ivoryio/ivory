@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Grid } from '@material-ui/core'
 
-import { DynamicForm } from 'app/components'
+import { DynamicForm } from '@ui-components'
 import { t, i18nKeys } from 'locales/i18n'
 import { FormHeader, FormFooter, ChangeAuthStateLink } from '.'
 import { requestPasswordResetLayout, requestPasswordResetActions } from '../constants'

@@ -1,2 +1,18 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export const add = (/*dependencies: any */) => (/* input_data : any */) => {}
+import { red, bold } from 'chalk'
+
+export const add = ({ copyModuleTemplate, injectAuthCode }: AddEntityCommandActions) => (
+  module: SupportedModule
+): void => {
+  switch (module) {
+    case 'auth':
+      copyModuleTemplate('auth')
+      injectAuthCode()
+      break
+    case 'components':
+      copyModuleTemplate('ui-components')
+      break
+    default:
+      console.error(`${red('ERROR')} Invalid argument for ${bold('add')} command: ${module}`)
+      break
+  }
+}

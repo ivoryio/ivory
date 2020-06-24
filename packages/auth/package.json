@@ -1,0 +1,7 @@
+{
+  "name": "@ivoryio/auth",
+  "version": "1.0.0-alpha.0",
+  "description": "Ivory auth module.",
+  "main": "index.js",
+  "private": true
+}
