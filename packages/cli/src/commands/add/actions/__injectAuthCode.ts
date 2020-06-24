@@ -1,4 +1,3 @@
-// import chalk from 'chalk'
 import { join } from 'path'
 import { sed } from 'shelljs'
 
