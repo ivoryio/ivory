@@ -7,13 +7,14 @@ main()
 
 async function main() {
   program
-  .version(pkg.version)
-  .command('auth')
-  .action(add)
+    .version(pkg.version)
+    .command('auth')
+    .action(() => add('auth'))
 
   program
-  .version(pkg.version)
-  .command('entity')
-  .action(add)
+    .version(pkg.version)
+    .command('components')
+    .action(() => add('components'))
+
   await program.parseAsync(process.argv)
 }

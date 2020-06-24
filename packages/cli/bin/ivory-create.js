@@ -9,7 +9,7 @@ async function main() {
   program
     .version(pkg.version)
     .passCommandToAction(false)
-    // .option('-n, --project-name <name>', 'name of the new project')
+    .option('--fe-only', 'skip adding authentication or any back-end resources')
     .option('--aws-profile <profile>', 'aws profile name')
     .option('--repo <provider>', 'repository provider, one of codecommit/github/other')
     .action(create)

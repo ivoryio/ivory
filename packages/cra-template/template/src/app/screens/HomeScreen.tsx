@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { RouteComponentProps, Link } from '@reach/router'
 
-import { Button } from 'app/components'
+import { Button } from '@ui-components'
 import { useToast } from 'hooks/useToast'
 import { t, i18nKeys } from 'locales/i18n'
 

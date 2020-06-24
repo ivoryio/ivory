@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Grid, Container } from '@material-ui/core'
 
-import { Button, Input } from 'app/components'
+import { Button, Input } from '@ui-components'
 import { t, i18nKeys } from 'locales/i18n'
 import { useToast } from 'hooks/useToast'
 

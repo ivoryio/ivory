@@ -1,4 +1,4 @@
 import { add as buildAddCommand } from './command'
-import { copyModuleTemplate } from './actions'
+import { copyModuleTemplate, injectAuthCode } from './actions'
 
-export const add = buildAddCommand({ copyModuleTemplate })
+export const add = buildAddCommand({ copyModuleTemplate, injectAuthCode })

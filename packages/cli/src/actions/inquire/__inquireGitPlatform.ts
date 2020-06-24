@@ -1,17 +1,22 @@
 import inquirer from 'inquirer'
 
-export const inquireRepositoryInfo = async (): Promise<RepositoryInfo> => {
-  const platform = await inquirer
-    .prompt([
-      {
-        type: 'list',
-        name: 'gitPlatform',
-        message: 'Where is the repository going to be?',
-        choices: ['codecommit', 'github', 'other'],
-        default: 0,
-      },
-    ])
-    .then(r => r.gitPlatform as GitPlatform)
+const choices = ['codecommit', 'github', 'other']
+
+export const inquireRepositoryInfo = async (defaultValue: string): Promise<RepositoryInfo> => {
+  let platform = defaultValue as GitPlatform
+  if (!choices.includes(platform)) {
+    platform = await inquirer
+      .prompt([
+        {
+          type: 'list',
+          name: 'gitPlatform',
+          message: 'Where is the repository going to be?',
+          choices,
+          default: 0,
+        },
+      ])
+      .then(r => r.gitPlatform as GitPlatform)
+  }
 
   if (platform !== 'github') {
     return { platform }

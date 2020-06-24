@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "paths": {
-      "@auth": [ "./modules/@auth" ]
+      "@ui-components": [ "./modules/@ui-components" ]
     }
   }
 }
