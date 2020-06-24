@@ -1,5 +1,6 @@
 export { SignIn } from './SignIn'
 export { SignUp } from './SignUp'
+export { ConfirmSignIn } from './ConfirmSignIn'
 export { ConfirmSignUp } from './ConfirmSignUp'
 export { ForgotPassword } from './ForgotPassword'
 export { RequireNewPassword } from './RequireNewPassword'

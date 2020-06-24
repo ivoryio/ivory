@@ -2,7 +2,8 @@
   "global": {
     "showToast": "Show toast",
     "infoToast": "This is an info toast",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "save": "Save"
   },
   "home": {
     "hello": "Hello",
@@ -46,6 +47,17 @@
       "actions": {
         "create": "Create account",
         "signIn": "Sign in"
+      }
+    },
+    "confirmSignIn": {
+      "header": "Confirm sign in verification code",
+      "errors": {
+        "wrongCode": "SMS code is not valid"
+      },
+      "success": "Your verification code is confirmed. You will now be logged in.",
+      "actions": {
+        "confirm": "Confirm",
+        "backToSignIn": "Back to sign in"
       }
     },
     "confirmSignUp": {

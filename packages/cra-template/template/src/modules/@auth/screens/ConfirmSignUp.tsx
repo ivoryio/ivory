@@ -1,18 +1,24 @@
 import * as React from 'react'
+import { Grid } from '@material-ui/core'
 import { useForm } from 'react-hook-form'
-import { Grid, Container } from '@material-ui/core'
 
 import { t, i18nKeys } from 'locales/i18n'
 import { useToast } from 'hooks/useToast'
 
-import { Button, Input } from 'app/components'
+import { DynamicForm } from 'app/components'
 import { useConfirmSignUp } from '../hooks'
+import { confirmSignUpLayout, confirmSignUpActions } from '../constants'
+
 import { FormHeader, FormFooter, ChangeAuthStateLink } from '../components'
 
 const authKeys = i18nKeys.auth
 
 interface ConfirmSignUpForm {
   code: string
+}
+
+interface ConfirmSignUpFormFooterProps {
+  resend: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void
 }
 
 export const ConfirmSignUp: React.FC = () => {
@@ -36,35 +42,41 @@ export const ConfirmSignUp: React.FC = () => {
   }
 
   return (
-    <form data-testid='confirmSignUpForm' onSubmit={handleSubmit(onSubmit)}>
-      <Container maxWidth='xs'>
-        <FormHeader data-testid='confirm-sign-up-form-header'>{t(authKeys.confirmSignUp.header)}</FormHeader>
-        <Input
-          dataTestId='confirm-sign-up-code-input'
-          rules={{ required: true }}
-          name='code'
-          label={t(authKeys.labels.confirmationCode)}
-          autoComplete='code'
-          control={control}
-        />
-        <FormFooter>
-          <Button data-testid='confirm-sign-up-btn' type='submit' fullWidth>
-            {t(authKeys.confirmSignUp.actions.confirm)}
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <span onClick={resend}>{t(authKeys.confirmSignUp.actions.resend)}</span>
-            </Grid>
-            <Grid item>
-              <ChangeAuthStateLink
-                label={t(authKeys.confirmSignUp.actions.backToSignIn)}
-                newState='signIn'
-              />
-            </Grid>
-          </Grid>
-        </FormFooter>
-      </Container>
+    <>
+      <DynamicForm
+        actions={confirmSignUpActions({ confirm: t(authKeys.confirmSignUp.actions.confirm) })}
+        control={control}
+        dataTestId='confirmSignUpForm'
+        handleSubmit={handleSubmit}
+        layout={confirmSignUpLayout({
+          confirmationCode: t(authKeys.labels.confirmationCode),
+        })}
+        name='confirm-sign-in'
+        onSubmit={onSubmit}
+        FormHeader={() => (
+          <FormHeader data-testid='confirm-sign-up-form-header'>
+            {t(authKeys.confirmSignUp.header)}
+          </FormHeader>
+        )}
+        FormFooter={() => <ConfirmSignUpFormFooter resend={resend} />}
+      />
       <Toast />
-    </form>
+    </>
   )
 }
+
+const ConfirmSignUpFormFooter = ({ resend }: ConfirmSignUpFormFooterProps) => (
+  <FormFooter>
+    <Grid container>
+      <Grid item xs>
+        <span onClick={resend}>{t(authKeys.confirmSignUp.actions.resend)}</span>
+      </Grid>
+      <Grid item>
+        <ChangeAuthStateLink
+          label={t(authKeys.confirmSignUp.actions.backToSignIn)}
+          newState='signIn'
+        />
+      </Grid>
+    </Grid>
+  </FormFooter>
+)

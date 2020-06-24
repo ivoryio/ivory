@@ -29,9 +29,9 @@ export const useSignIn = (
       if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
         logger.debug('require new password', user.challengeParam)
         handleStateChange('requireNewPassword', user)
-        // } else if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
-        //   logger.debug('confirm user with ' + user.challengeName)
-        //   handleStateChange('confirmSignIn', user)
+      } else if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
+        logger.debug('confirm user with ' + user.challengeName)
+        handleStateChange('confirmSignIn', { user, mfaType: user.challengeName })
         // } else if (user.challengeName === 'MFA_SETUP') {
         //   logger.debug('TOTP setup', user.challengeParam)
         //   handleStateChange('TOTPSetup', user)

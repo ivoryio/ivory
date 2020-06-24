@@ -3,7 +3,7 @@ export interface AuthContextProps extends AuthState {
 }
 
 export interface User {
-  username: string
+  username?: string
   groups?: string[]
   email?: string
   name?: string
@@ -11,6 +11,8 @@ export interface User {
 
 export interface AuthData extends User {
   [key: string]: unknown
+  user?: object
+  mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA' | null | undefined
 }
 
 export type ValidAuthState =
