@@ -26,7 +26,7 @@ describe('create command', () => {
     const fakeAction = () => {
       called = true
     }
-    await create({ ...doNothingActions, inquireProjectName: fakeAction })()
+    await create({ ...doNothingActions, inquireProjectName: fakeAction })({})
 
     assert.ok(called)
   })
@@ -36,7 +36,7 @@ describe('create command', () => {
     const fakeAction = () => {
       called = true
     }
-    await create({ ...doNothingActions, inquireAwsProfile: fakeAction })()
+    await create({ ...doNothingActions, inquireAwsProfile: fakeAction })({})
 
     assert.ok(called)
   })
@@ -47,7 +47,7 @@ describe('create command', () => {
       called = true
       return {}
     }
-    await create({ ...doNothingActions, inquireRepositoryInfo: fakeAction })()
+    await create({ ...doNothingActions, inquireRepositoryInfo: fakeAction })({})
 
     assert.ok(called)
   })
@@ -57,7 +57,7 @@ describe('create command', () => {
     const fakeAction = () => {
       called = true
     }
-    await create({ ...doNothingActions, configureAwsSdkEnv: fakeAction })()
+    await create({ ...doNothingActions, configureAwsSdkEnv: fakeAction })({})
 
     assert.ok(called)
   })
@@ -67,7 +67,7 @@ describe('create command', () => {
     const fakeAction = () => {
       called = true
     }
-    await create({ ...doNothingActions, retrieveAmplifyAppId: fakeAction })()
+    await create({ ...doNothingActions, retrieveAmplifyAppId: fakeAction })({})
 
     assert.ok(called)
   })
@@ -77,7 +77,7 @@ describe('create command', () => {
     const fakeAction = () => {
       called = true
     }
-    await create({ ...doNothingActions, initAmplify: fakeAction })()
+    await create({ ...doNothingActions, initAmplify: fakeAction })({})
 
     assert.ok(called)
   })
@@ -87,7 +87,7 @@ describe('create command', () => {
     const fakeAction = () => {
       called = true
     }
-    await create({ ...doNothingActions, amplifyAddAuth: fakeAction })()
+    await create({ ...doNothingActions, amplifyAddAuth: fakeAction })({})
 
     assert.ok(called)
   })
@@ -97,7 +97,7 @@ describe('create command', () => {
     const fakeAction = () => {
       called = true
     }
-    await create({ ...doNothingActions, amplifyPush: fakeAction })()
+    await create({ ...doNothingActions, amplifyPush: fakeAction })({})
 
     assert.ok(called)
   })
@@ -107,7 +107,7 @@ describe('create command', () => {
     const fakeAction = () => {
       called = true
     }
-    await create({ ...doNothingActions, gitCommitAll: fakeAction })()
+    await create({ ...doNothingActions, gitCommitAll: fakeAction })({})
 
     assert.ok(called)
   })
@@ -123,7 +123,7 @@ describe('create command', () => {
       retrieveAmplifyAppId: () => {
         hasInquiredInOrder = hasconfigureAwsSdkEnv
       },
-    })()
+    })({})
 
     assert.ok(hasInquiredInOrder)
   })
@@ -133,7 +133,7 @@ describe('create command', () => {
     const fakeAction = () => {
       called = true
     }
-    await create({ ...doNothingActions, deployInfrastructure: fakeAction })()
+    await create({ ...doNothingActions, deployInfrastructure: fakeAction })({})
 
     assert.ok(called)
   })
@@ -143,7 +143,7 @@ describe('create command', () => {
     const fakeAction = () => {
       called = true
     }
-    await create({ ...doNothingActions, createReactApp: fakeAction })()
+    await create({ ...doNothingActions, createReactApp: fakeAction })({})
 
     assert.ok(called)
   })
@@ -153,7 +153,7 @@ describe('create command', () => {
     const fakeAction = () => {
       called = true
     }
-    await create({ ...doNothingActions, configureApp: fakeAction })()
+    await create({ ...doNothingActions, configureApp: fakeAction })({})
 
     assert.ok(called)
   })
@@ -181,7 +181,7 @@ describe('create command', () => {
         hasInquiredGitPlatform = true
         return Promise.resolve('git')
       },
-    })()
+    })({})
 
     assert.ok(hasInquiredInOrder)
   })
@@ -197,7 +197,7 @@ describe('create command', () => {
       configureApp: () => {
         hasConfiguredAfterCreation = hasCreatedReactApp
       },
-    })()
+    })({})
     assert.ok(hasConfiguredAfterCreation)
   })
 
@@ -210,7 +210,7 @@ describe('create command', () => {
       createReactApp: projectName => {
         actual = projectName
       },
-    })()
+    })({})
     assert.equal(actual, expected)
   })
 
@@ -229,7 +229,7 @@ describe('create command', () => {
       inquireAwsProfile: () => Promise.resolve(expected.awsProfile),
       inquireProjectName: () => Promise.resolve(expected.projectName),
       inquireRepositoryInfo: () => Promise.resolve(expected.repositoryInfo),
-    })()
+    })({})
 
     assert.equal(actual.awsProfile, expected.awsProfile)
     assert.equal(actual.projectName, expected.projectName)
@@ -246,7 +246,7 @@ describe('create command', () => {
       ...doNothingActions,
       inquireRepositoryInfo: () => Promise.resolve({ platform: 'codecommit' }),
       retrieveRepositoryUrl: fakeAction,
-    })()
+    })({})
 
     assert.ok(called)
   })
@@ -261,7 +261,7 @@ describe('create command', () => {
       ...doNothingActions,
       inquireRepositoryInfo: () => Promise.resolve({ platform: 'github' }),
       retrieveRepositoryUrl: fakeAction,
-    })()
+    })({})
 
     assert.equal(called, false)
   })
@@ -276,7 +276,7 @@ describe('create command', () => {
       ...doNothingActions,
       inquireRepositoryInfo: () => Promise.resolve({ platform: 'codecommit' }),
       gitConfig: fakeAction,
-    })()
+    })({})
 
     assert.ok(called)
   })
@@ -291,7 +291,7 @@ describe('create command', () => {
       ...doNothingActions,
       inquireRepositoryInfo: () => Promise.resolve({ platform: 'github' }),
       gitConfig: fakeAction,
-    })()
+    })({})
 
     assert.equal(called, false)
   })
@@ -306,7 +306,7 @@ describe('create command', () => {
       ...doNothingActions,
       inquireRepositoryInfo: () => Promise.resolve({ platform: 'codecommit' }),
       gitPush: fakeAction,
-    })()
+    })({})
 
     assert.ok(called)
   })
@@ -321,7 +321,7 @@ describe('create command', () => {
       ...doNothingActions,
       inquireRepositoryInfo: () => Promise.resolve({ platform: 'github' }),
       gitPush: fakeAction,
-    })()
+    })({})
 
     assert.equal(called, false)
   })

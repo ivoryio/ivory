@@ -1,14 +1,13 @@
 {
   "name": "@ivoryio/ivory-cli",
-  "version": "1.0.1-alpha.2",
+  "version": "1.0.1-beta.0",
   "description": "Ivory CLI",
   "main": "index.js",
   "bin": {
     "ivory": "bin/ivory-cli.js"
   },
   "scripts": {
-    "publish:beta": "yarn publish:npm --tag beta",
-    "publish:npm": "yarn test && npm publish --access public",
+    "publish:npm": "yarn test && npm publish --access public --tag alpha",
     "test": "yarn build && mocha tests/*",
     "build": "rm -r ./lib && yarn tsc",
     "lint": "eslint './src/**/*.{ts,tsx}'"
@@ -25,6 +24,10 @@
     "url": "https://github.com/ivoryio/ivory/issues"
   },
   "homepage": "https://github.com/ivoryio/ivory#readme",
+  "files": [
+    "/lib",
+    "/bin"
+  ],
   "dependencies": {
     "aws-sdk": "^2.683.0",
     "chalk": "^4.1.0",
@@ -51,5 +54,9 @@
   },
   "peerDependencies": {
     "@aws-amplify/cli": "^4.20.0"
-  }
+  },
+  "bundledDependencies": [
+    "@ivoryio/auth",
+    "@ivoryio/ui-components"
+  ]
 }
