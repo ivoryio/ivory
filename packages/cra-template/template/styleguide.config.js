@@ -1,3 +1,3 @@
 module.exports = {
-  components: 'src/app/components/**/[A-Z]*.tsx',
+  components: ['src/modules/@ui-components/**/[A-Z]*.tsx', 'src/app/components/**/[A-Z]*.tsx'],
 }
