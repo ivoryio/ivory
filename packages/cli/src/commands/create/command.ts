@@ -1,3 +1,5 @@
+import { green, blue } from "chalk"
+
 export const create = ({
   gitPush,
   gitConfig,
@@ -7,6 +9,7 @@ export const create = ({
   configureApp,
   createReactApp,
   amplifyAddAuth,
+  addCommand: add,
   inquireAwsProfile,
   inquireProjectName,
   configureAwsSdkEnv,
@@ -14,21 +17,29 @@ export const create = ({
   deployInfrastructure,
   inquireRepositoryInfo,
   retrieveRepositoryUrl,
-}: CreateCommandActions) => async (): Promise<void> => {
-  const projectName = await inquireProjectName()
-  const awsProfile = await inquireAwsProfile()
-  const repositoryInfo = await inquireRepositoryInfo()
+}: CreateCommandActions) => async (
+  params: Record<string, string>,
+  args: string[]
+): Promise<void> => {
+  const projectName = args?.length ? args[0] : await inquireProjectName()
+  const awsProfile = params.awsProfile ?? (await inquireAwsProfile())
+  const repositoryInfo = await inquireRepositoryInfo(params.repo)
 
   createReactApp(projectName)
   configureApp({ projectName, awsProfile, repositoryInfo })
   deployInfrastructure({ projectName, awsProfile, repositoryInfo })
+  console.info('Adding ivory components');
+  add('components')
 
   configureAwsSdkEnv(awsProfile)
   const amplifyAppId = await retrieveAmplifyAppId(projectName)
   initAmplify({ projectName, awsProfile, amplifyAppId })
 
-  await amplifyAddAuth()
-  amplifyPush()
+  if (!params.feOnly) {
+    await amplifyAddAuth()
+    add('auth')
+    amplifyPush()
+  }
 
   await gitCommitAll('[Ivory auto-commit] initilized AWS Amplify')
   if (repositoryInfo.platform === 'codecommit') {
@@ -36,4 +47,11 @@ export const create = ({
     await gitConfig(awsProfile, repoUrl)
     await gitPush()
   }
+
+  console.info();
+  console.info(green(`We're done, now it's up to you,`));
+  console.info('we suggest that you begin by typing:');
+  console.info();
+  console.info(blue(`  cd`), projectName);
+  console.info(blue(`  yarn start`));
 }

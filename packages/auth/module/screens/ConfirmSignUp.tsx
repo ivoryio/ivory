@@ -5,7 +5,7 @@ import { Grid, Container } from '@material-ui/core'
 import { t, i18nKeys } from 'locales/i18n'
 import { useToast } from 'hooks/useToast'
 
-import { Button, Input } from 'app/components'
+import { Button, Input } from '@ui-components'
 import { useConfirmSignUp } from '../hooks'
 import { FormHeader, FormFooter, ChangeAuthStateLink } from '../components'
 

@@ -15,7 +15,7 @@ Amplify.configure({
   ...awsConfig,
   oauth: {
     ...awsConfig.oauth,
-    ...getRedirectUrls(),
+    // ...getRedirectUrls(),
   },
 })
 
@@ -33,15 +33,15 @@ ReactDOM.render(
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister()
 
-function getRedirectUrls() {
-  const { host } = window.location
-  const byHost = (url: string) => new URL(url).host === host
+// function getRedirectUrls() {
+//   const { host } = window.location
+//   const byHost = (url: string) => new URL(url).host === host
 
-  const redirectSignInOptions = awsConfig.oauth.redirectSignIn.split(',')
-  const redirect = redirectSignInOptions.find(byHost)
+//   const redirectSignInOptions = awsConfig.oauth.redirectSignIn.split(',')
+//   const redirect = redirectSignInOptions.find(byHost)
 
-  return {
-    redirectSignIn: redirect,
-    redirectSignOut: redirect,
-  }
-}
+//   return {
+//     redirectSignIn: redirect,
+//     redirectSignOut: redirect,
+//   }
+// }

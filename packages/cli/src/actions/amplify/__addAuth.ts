@@ -1,6 +1,5 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { spawn, ChildProcess, stream } from 'child_process'
+import { spawn, ChildProcess } from 'child_process'
 
 export const amplifyAddAuth = (): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
@@ -16,7 +15,7 @@ export const amplifyAddAuth = (): Promise<void> => {
 
     answerChildProcessQuestions({ childProcess: addProcess, qas })
 
-    addProcess.stderr.on('data', (data: stream.Readable) => {
+    addProcess.stderr.on('data', (data) => {
       reject(`Auth integration failed: ${data}`)
     })
 
@@ -26,10 +25,10 @@ export const amplifyAddAuth = (): Promise<void> => {
   })
 }
 
-export function answerChildProcessQuestions({ childProcess, qas }: ChildQAParametersInterface) {
+export function answerChildProcessQuestions({ childProcess, qas }: ChildQAParametersInterface): void {
   const alreadyAnswered = qas.map(() => false)
 
-  childProcess!.stdout!.on('data', (data: stream.Readable) => {
+  childProcess.stdout?.on('data', (data) => {
     qas.forEach(({ question }, index) => {
       if (`${data}`.indexOf(question) > 0) {
         answer(index, `${data}`)
@@ -40,11 +39,11 @@ export function answerChildProcessQuestions({ childProcess, qas }: ChildQAParame
   function answer(index: number, message: string) {
     if (!alreadyAnswered[index]) {
       setTimeout(() => {
-        childProcess!.stdin!.write(qas[index].answer)
+        childProcess.stdin?.write(qas[index].answer)
         alreadyAnswered[index] = true
       }, 100)
     } else {
-      console.log(message)
+      console.info(message)
     }
   }
 }
