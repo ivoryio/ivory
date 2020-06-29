@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Toast as ToastComponent, ToastProps } from 'app/components/Toast'
+import { Toast as ToastComponent, ToastProps } from '@ui-components'
 
 interface ToastState {
   isOpen: boolean

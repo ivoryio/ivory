@@ -1,6 +1,6 @@
 import React from 'react'
-import { Snackbar, SnackbarOrigin } from '@material-ui/core'
 import { Alert, AlertProps } from '@material-ui/lab'
+import { Snackbar, SnackbarOrigin } from '@material-ui/core'
 
 export interface ToastProps {
   isOpen: boolean
