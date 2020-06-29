@@ -1,13 +1,14 @@
 import * as React from 'react'
-import { Grid, Container } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { useForm } from 'react-hook-form'
 
-import { Button, Input } from '@ui-components'
 import { t, i18nKeys } from 'locales/i18n'
 import { useToast } from 'hooks/useToast'
 
+import { DynamicForm } from 'app/components'
 import { useSignUp } from '../hooks'
-import { FormHeader, FormFooter, ChangeAuthStateLink } from '../components'
+import { signUpLayout, signUpActions } from '../constants'
+import { FormHeader, ChangeAuthStateLink, FormFooter } from '../components'
 
 const authKeys = i18nKeys.auth
 
@@ -38,39 +39,35 @@ export const SignUp: React.FC = () => {
   }
 
   return (
-    <form data-testid='signUpForm' onSubmit={handleSubmit(onSubmit)}>
-      <Container maxWidth='xs'>
-        <FormHeader data-testid='sign-up-form-header'>{t(authKeys.signUp.header)}</FormHeader>
-        <Input
-          dataTestId='sign-up-username-input'
-          name='email'
-          label={t(authKeys.labels.email)}
-          type='email'
-          control={control}
-          rules={{ required: true }}
-        />
-        <Input
-          dataTestId='sign-up-password-input'
-          name='password'
-          label={t(authKeys.labels.password)}
-          type='password'
-          autoComplete='current-password'
-          control={control}
-          rules={{ required: true }}
-        />
-        <FormFooter>
-          <Button data-testid='sign-up-btn' type='submit' fullWidth variant='contained' color='primary'>
-            {t(authKeys.signUp.actions.create)}
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              {t(authKeys.signUp.existingAccount)}{' '}
-              <ChangeAuthStateLink label={t(authKeys.signUp.actions.signIn)} newState='signIn' />
-            </Grid>
-          </Grid>
-        </FormFooter>
-      </Container>
+    <>
+      <DynamicForm
+        actions={signUpActions({ signUp: t(authKeys.signUp.actions.create) })}
+        control={control}
+        dataTestId='signUpForm'
+        handleSubmit={handleSubmit}
+        layout={signUpLayout({
+          email: t(authKeys.labels.email),
+          password: t(authKeys.labels.password),
+        })}
+        name='sign-up'
+        onSubmit={onSubmit}
+        FormHeader={() => (
+          <FormHeader data-testid='sign-up-form-header'>{t(authKeys.signUp.header)}</FormHeader>
+        )}
+        FormFooter={() => <SignUpFormFooter />}
+      />
       <Toast />
-    </form>
+    </>
   )
 }
+
+const SignUpFormFooter = () => (
+  <FormFooter>
+    <Grid container>
+      <Grid item xs>
+        {t(authKeys.signUp.existingAccount)}{' '}
+        <ChangeAuthStateLink label={t(authKeys.signUp.actions.signIn)} newState='signIn' />
+      </Grid>
+    </Grid>
+  </FormFooter>
+)

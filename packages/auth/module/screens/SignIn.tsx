@@ -1,16 +1,16 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Grid, Container } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 
-import { Button, Input } from '@ui-components'
-import { t, i18nKeys } from 'locales/i18n'
+import { DynamicForm } from '@ui-components'
 import { useToast } from 'hooks/useToast'
+import { t, i18nKeys } from 'locales/i18n'
 
 import { useSignIn } from '../hooks'
+import { signInLayout, signInActions } from '../constants'
 import { FormHeader, FormFooter, ChangeAuthStateLink } from '../components'
 
 const authKeys = i18nKeys.auth
-
 export interface SignInProps {
   hideSignUpLink?: boolean
   hideForgotPasswordLink?: boolean
@@ -19,6 +19,11 @@ export interface SignInProps {
 interface SignInForm {
   email: string
   password: string
+}
+
+interface SignInFormFooterProps {
+  hideForgotPasswordLink: boolean
+  hideSignUpLink: boolean
 }
 
 export const SignIn: React.FC<SignInProps> = ({
@@ -46,54 +51,49 @@ export const SignIn: React.FC<SignInProps> = ({
   }
 
   return (
-    <form data-testid='signInForm' onSubmit={handleSubmit(onSubmit)}>
-      <Container maxWidth='xs'>
-        <FormHeader data-testid='sign-in-form-header'>{t(authKeys.signIn.header)}</FormHeader>
-        <Input
-          dataTestId='sign-in-username-input'
-          rules={{ required: true }}
-          name='email'
-          label={t(authKeys.labels.email)}
-          type='email'
-          control={control}
-        />
-        <Input
-          dataTestId='sign-in-password-input'
-          rules={{ required: true }}
-          name='password'
-          label={t(authKeys.labels.password)}
-          type='password'
-          autoComplete='current-password'
-          control={control}
-        />
-        <FormFooter>
-          <Button
-            data-testid='sign-in-btn'
-            type='submit'
-            fullWidth
-            color='primary'
-            variant='contained'
-          >
-            {t(authKeys.signIn.actions.signIn)}
-          </Button>
-          <Grid container>
-            {!hideForgotPasswordLink && (
-              <Grid item xs>
-                <ChangeAuthStateLink
-                  newState='forgotPassword'
-                  label={t(authKeys.signIn.actions.forgotPassword)}
-                />
-              </Grid>
-            )}
-            {!hideSignUpLink && (
-              <Grid item>
-                <ChangeAuthStateLink newState='signUp' label={t(authKeys.signIn.actions.signUp)} />
-              </Grid>
-            )}
-          </Grid>
-        </FormFooter>
-      </Container>
+    <>
+      <DynamicForm
+        actions={signInActions({ signIn: t(authKeys.signIn.actions.signIn) })}
+        control={control}
+        dataTestId='signInForm'
+        handleSubmit={handleSubmit}
+        layout={signInLayout({
+          email: t(authKeys.labels.email),
+          password: t(authKeys.labels.password),
+        })}
+        name='sign-in'
+        onSubmit={onSubmit}
+        FormHeader={() => (
+          <FormHeader data-testid='sign-in-form-header'>{t(authKeys.signIn.header)}</FormHeader>
+        )}
+        FormFooter={() => (
+          <SignInFormFooter
+            hideForgotPasswordLink={hideForgotPasswordLink}
+            hideSignUpLink={hideSignUpLink}
+          />
+        )}
+      />
       <Toast />
-    </form>
+    </>
   )
 }
+
+const SignInFormFooter = ({ hideForgotPasswordLink, hideSignUpLink }: SignInFormFooterProps) => (
+  <FormFooter>
+    <Grid container>
+      {!hideForgotPasswordLink && (
+        <Grid item xs>
+          <ChangeAuthStateLink
+            newState='forgotPassword'
+            label={t(authKeys.signIn.actions.forgotPassword)}
+          />
+        </Grid>
+      )}
+      {!hideSignUpLink && (
+        <Grid item>
+          <ChangeAuthStateLink newState='signUp' label={t(authKeys.signIn.actions.signUp)} />
+        </Grid>
+      )}
+    </Grid>
+  </FormFooter>
+)

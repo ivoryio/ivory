@@ -1,13 +1,13 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Container } from '@material-ui/core'
-
-import { Button, Input } from '@ui-components'
+import { DynamicForm } from '@ui-components'
 import { useToast } from 'hooks/useToast'
 import { t, i18nKeys } from 'locales/i18n'
-import { FormHeader, FormFooter } from '../components'
+import { FormHeader } from '../components'
+import { requireNewPasswordLayout, requireNewPasswordActions } from '../constants'
 import { useRequireNewPassword } from '../hooks/userRequireNewPassword'
 
+const authKeys = i18nKeys.auth
 interface NewPasswordForm {
   password: string
 }
@@ -31,24 +31,24 @@ export const RequireNewPassword: React.FC = () => {
   }
 
   return (
-    <form data-testid='forgot-password-send-form' onSubmit={handleSubmit(onSubmit)}>
-      <Container maxWidth='xs'>
-        <FormHeader data-testid='require-new-password-form-header'>{t(i18nKeys.auth.requireNewPassword.header)}</FormHeader>
-        <Input
-          dataTestId='require-password-input'
-          rules={{ required: true }}
-          name='password'
-          label={t(i18nKeys.auth.labels.newPassword)}
-          type='password'
-          control={control}
-        />
-        <FormFooter>
-          <Button data-testid='require-new-password-btn' type='submit' fullWidth>
-            {t(i18nKeys.auth.requireNewPassword.actions.change)}
-          </Button>
-        </FormFooter>
-      </Container>
+    <>
+      <DynamicForm
+        actions={requireNewPasswordActions({ change: t(i18nKeys.auth.requireNewPassword.actions.change) })}
+        control={control}
+        dataTestId='forgot-password-send-form'
+        handleSubmit={handleSubmit}
+        layout={requireNewPasswordLayout({
+          newPassword: t(authKeys.labels.newPassword),
+        })}
+        name='require-new-password'
+        onSubmit={onSubmit}
+        FormHeader={() => (
+          <FormHeader data-testid='require-new-password-form-header'>
+            {t(authKeys.requireNewPassword.header)}
+          </FormHeader>
+        )}
+      />
       <Toast />
-    </form>
+    </>
   )
 }

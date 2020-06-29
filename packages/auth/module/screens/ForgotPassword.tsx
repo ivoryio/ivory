@@ -7,6 +7,7 @@ import { ResetPassword, RequestPasswordResetCode } from '../components'
 export const ForgotPassword: React.FC = () => {
   const { showToast: showNotification, Toast } = useToast()
   const { delivery, username, resetPassword, requestCode } = useResetPassword()
+
   return (
     <>
       {delivery || username ? (

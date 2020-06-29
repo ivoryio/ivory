@@ -1,11 +1,11 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Grid, Container } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 
-import { Button, Input } from '@ui-components'
+import { DynamicForm } from '@ui-components'
 import { t, i18nKeys } from 'locales/i18n'
-import { FormFooter } from './FormFooter'
-import { FormHeader } from './FormHeader'
+import { FormHeader, FormFooter } from '.'
+import { resetPasswordLayout, resetPasswordActions } from '../constants'
 
 interface ResetPasswordProps {
   username: string
@@ -17,6 +17,11 @@ interface ResetPasswordProps {
 interface ResetPasswordForm {
   code: string
   password: string
+}
+
+interface ResetPasswordFormFooterProps {
+  requestCode: (email: string) => Promise<void>
+  username: string
 }
 
 export const ResetPassword: React.FC<ResetPasswordProps> = ({
@@ -41,37 +46,37 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({
   }
 
   return (
-    <form data-testid='forgot-password-send-form' onSubmit={handleSubmit(onSubmit)}>
-      <Container maxWidth='xs'>
-        <FormHeader data-testid='reset-password-form-header'>{t(i18nKeys.auth.forgotPassword.headerReset)}</FormHeader>
-        <Input
-          dataTestId='reset-password-code-input'
-          rules={{ required: true }}
-          name='code'
-          label={t(i18nKeys.auth.labels.code)}
-          control={control}
-        />
-        <Input
-          dataTestId='reset-password-new-password-input'
-          rules={{ required: true }}
-          name='password'
-          label={t(i18nKeys.auth.labels.newPassword)}
-          type='password'
-          control={control}
-        />
-        <FormFooter>
-          <Button data-testid='reset-password-btn' type='submit' fullWidth>
-            {t(i18nKeys.auth.forgotPassword.actions.submit)}
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <span onClick={(): Promise<void> => requestCode(username)}>
-                {t(i18nKeys.auth.forgotPassword.actions.resendCode)}
-              </span>
-            </Grid>
-          </Grid>
-        </FormFooter>
-      </Container>
-    </form>
+    <DynamicForm
+      actions={resetPasswordActions({
+        submit: t(i18nKeys.auth.forgotPassword.actions.submit),
+      })}
+      control={control}
+      dataTestId='forgot-password-send-form'
+      handleSubmit={handleSubmit}
+      layout={resetPasswordLayout({
+        code: t(i18nKeys.auth.labels.code),
+        newPassword: t(i18nKeys.auth.labels.newPassword),
+      })}
+      name='require-new-password'
+      onSubmit={onSubmit}
+      FormHeader={() => (
+        <FormHeader data-testid='reset-password-form-header'>
+          {t(i18nKeys.auth.forgotPassword.headerReset)}
+        </FormHeader>
+      )}
+      FormFooter={() => <ResetPasswordFormFooter requestCode={requestCode} username={username} />}
+    />
   )
 }
+
+const ResetPasswordFormFooter = ({ requestCode, username }: ResetPasswordFormFooterProps) => (
+  <FormFooter>
+    <Grid container>
+      <Grid item xs>
+        <span onClick={(): Promise<void> => requestCode(username)}>
+          {t(i18nKeys.auth.forgotPassword.actions.resendCode)}
+        </span>
+      </Grid>
+    </Grid>
+  </FormFooter>
+)

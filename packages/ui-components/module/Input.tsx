@@ -2,12 +2,13 @@ import React from 'react'
 import { TextField } from '@material-ui/core'
 import { Controller, Control } from 'react-hook-form'
 export interface InputProps {
+  align?: string
   autoComplete?: string
   autoFocus?: boolean
-  dataTestId: string
-  label: string
-  name: string
-  rules: object
+  dataTestId?: string
+  label?: string
+  name?: string
+  rules?: object
   type?: string
   as?: JSX.Element
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

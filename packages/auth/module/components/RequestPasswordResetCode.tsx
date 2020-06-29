@@ -1,10 +1,13 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Grid, Container } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 
-import { Button, Input } from '@ui-components'
+import { DynamicForm } from '@ui-components'
 import { t, i18nKeys } from 'locales/i18n'
 import { FormHeader, FormFooter, ChangeAuthStateLink } from '.'
+import { requestPasswordResetLayout, requestPasswordResetActions } from '../constants'
+
+const authKeys = i18nKeys.auth
 
 interface RequestPasswordResetCodeProps {
   onError: (content: string) => void
@@ -35,31 +38,34 @@ export const RequestPasswordResetCode: React.FC<RequestPasswordResetCodeProps> =
   }
 
   return (
-    <form data-testid='forgot-password-send-form' onSubmit={handleSubmit(onSubmit)}>
-      <Container maxWidth='xs'>
-        <FormHeader data-testid='request-new-password-form-header'>{t(i18nKeys.auth.forgotPassword.headerRequest)}</FormHeader>
-        <Input
-          dataTestId='request-new-password-email-input'
-          rules={{ required: true }}
-          name='email'
-          label={t(i18nKeys.auth.labels.email)}
-          type='email'
-          control={control}
-        />
-        <FormFooter>
-          <Button data-testid='request-password-reset-code-btn' type='submit' fullWidth>
-            {t(i18nKeys.auth.forgotPassword.actions.sendCode)}
-          </Button>
-          <Grid container>
-            <Grid item>
-              <ChangeAuthStateLink
-                newState='signIn'
-                label={t(i18nKeys.auth.signIn.actions.backToSignIn)}
-              />
-            </Grid>
-          </Grid>
-        </FormFooter>
-      </Container>
-    </form>
+    <DynamicForm
+      actions={requestPasswordResetActions({
+        sendCode: t(i18nKeys.auth.forgotPassword.actions.sendCode),
+      })}
+      control={control}
+      dataTestId='forgot-password-send-form'
+      handleSubmit={handleSubmit}
+      layout={requestPasswordResetLayout({
+        email: t(authKeys.labels.email),
+      })}
+      name='request-password-reset'
+      onSubmit={onSubmit}
+      FormHeader={() => (
+        <FormHeader data-testid='request-new-password-form-header'>
+          {t(authKeys.forgotPassword.headerRequest)}
+        </FormHeader>
+      )}
+      FormFooter={() => <RequestPasswordResetFormFooter />}
+    />
   )
 }
+
+const RequestPasswordResetFormFooter = () => (
+  <FormFooter>
+    <Grid container>
+      <Grid item>
+        <ChangeAuthStateLink newState='signIn' label={t(authKeys.signIn.actions.backToSignIn)} />
+      </Grid>
+    </Grid>
+  </FormFooter>
+)
