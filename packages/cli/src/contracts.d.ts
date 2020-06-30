@@ -39,7 +39,22 @@ interface CreateCommandActions {
   inquireRepositoryInfo: (defaultValue: string) => Promise<RepositoryInfo>
 }
 
+interface EntityName {
+  singular: string
+  plural: string
+}
+
+interface EntityNameWithLower extends EntityName {
+  lower: EntityName
+}
+
+interface TransformEntityParams {
+  name: EntityNameWithLower
+  attributes: string[]
+}
+
 interface AddEntityCommandActions {
-  copyModuleTemplate: (moduleName: string, destinationName?: string) => void
   injectAuthCode: () => void
+  transformEntityTemplate(params: TransformEntityParams)
+  copyModuleTemplate: (moduleName: string, destinationName?: string) => void
 }

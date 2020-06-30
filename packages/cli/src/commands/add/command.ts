@@ -1,12 +1,7 @@
-import { join } from 'path'
 import { red, bold } from 'chalk'
-import { template, templateSettings, capitalize } from 'lodash'
-import { readFileSync, writeFileSync, renameSync } from 'fs-extra'
 
-export const add = ({ copyModuleTemplate, injectAuthCode }: AddEntityCommandActions) => (
-  module: SupportedModule
-): void => {
-  let params
+export const add = (actions: AddEntityCommandActions) => (module: SupportedModule): void => {
+  const { copyModuleTemplate, injectAuthCode } = actions
 
   switch (module) {
     case 'auth':
@@ -17,17 +12,7 @@ export const add = ({ copyModuleTemplate, injectAuthCode }: AddEntityCommandActi
       copyModuleTemplate('ui-components')
       break
     case 'entity':
-      // inquire params
-      // amplify push
-      // copy and 'populate' template
-      params = {
-        name: { singular: 'BillingInvoice', plural: 'BillingInvoices' },
-        attributes: ['name', 'description'],
-      }
-      copyModuleTemplate('entity', params.name.singular)
-      transformTemplate(params.name, params.attributes)
-
-      // inject Entity Code
+      addEntity(actions)
       break
     default:
       console.error(
@@ -37,44 +22,41 @@ export const add = ({ copyModuleTemplate, injectAuthCode }: AddEntityCommandActi
   }
 }
 
-const entityFiles = [
-  `hooks/useCreate{{entity}}.ts`,
-  `hooks/useDelete{{entity}}.ts`,
-  `hooks/use{{entity}}.ts`,
-  `hooks/use{{entity}}List.ts`,
-  `hooks/useUpdate{{entity}}.ts`,
-  `screens/Create{{entity}}.tsx`,
-  `screens/{{entity}}List.tsx`,
-  `index.ts`,
-]
+function addEntity({ copyModuleTemplate, transformEntityTemplate }: AddEntityCommandActions) {
+  // check amplify add api was done
+  // inquire params
+  const params = inquireEntityParams()
+  // add params to graphql schema
+  // amplify push
+  copyModuleTemplate('entity', params.name.singular)
+  transformEntityTemplate(params)
 
-templateSettings.interpolate = /{{([\s\S]+?)}}/g
-
-function transformTemplate(moduleName: EntityName, attributes: string[]) {
-  const projectRoot = process.cwd()
-  const modulePath = join(projectRoot, 'src', 'modules', `@${moduleName.singular}`)
-  const entity = {
-    ...moduleName,
-    lower: toLower(moduleName),
-  }
-
-  entityFiles.forEach(f => {
-    const filePath = join(modulePath, f)
-    const contents = readFileSync(filePath, 'utf8')
-    const transform = template(contents)
-    writeFileSync(filePath, transform({ entity, attributes }))
-    renameSync(filePath, filePath.replace('{{entity}}', entity.singular))
-  })
+  // opt1 inject Entity Code (client.ts, ApolloProvider in Root.tsx) and install deps
+  // opt2 log how to continue
 }
 
-function toLower({ singular, plural }: EntityName): EntityName {
+function inquireEntityParams() {
+  const name = { singular: 'BillingInvoice', plural: 'BillingInvoices' }
   return {
-    singular: `${singular.slice(0, 1).toLowerCase()}${singular.slice(1)}`,
-    plural: `${plural.slice(0, 1).toLowerCase()}${plural.slice(1)}`,
+    name: {
+      ...changeFirstLetterCase(name, 'upper'),
+      lower: changeFirstLetterCase(name, 'lower'),
+    },
+    attributes: ['name', 'description'],
   }
 }
 
-interface EntityName {
-  singular: string
-  plural: string
+function changeFirstLetterCase(
+  { singular, plural }: EntityName,
+  target: 'lower' | 'upper'
+): EntityName {
+  let firstLetter = singular.slice(0, 1).toLowerCase()
+  if (target === 'upper') {
+    firstLetter = firstLetter.toUpperCase()
+  }
+
+  return {
+    singular: `${firstLetter}${singular.slice(1)}`,
+    plural: `${firstLetter}${plural.slice(1)}`,
+  }
 }
