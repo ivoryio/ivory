@@ -16,5 +16,10 @@ async function main() {
     .command('components')
     .action(() => add('components'))
 
+  program
+    .version(pkg.version)
+    .command('entity')
+    .action(() => add('entity'))
+
   await program.parseAsync(process.argv)
 }

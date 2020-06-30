@@ -40,6 +40,6 @@ interface CreateCommandActions {
 }
 
 interface AddEntityCommandActions {
-  copyModuleTemplate: (moduleName: string) => void
+  copyModuleTemplate: (moduleName: string, destinationName?: string) => void
   injectAuthCode: () => void
 }

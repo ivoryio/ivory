@@ -2,13 +2,13 @@ import { red, cyan } from 'chalk'
 import { dirname, join } from 'path'
 import { existsSync, copySync } from 'fs-extra'
 
-export const copyModuleTemplate = (moduleName: string): void => {
+export const copyModuleTemplate = (moduleName: string, destinationName?: string): void => {
   const projectRoot = process.cwd()
   const moduleSrc = dirname(require.resolve(`@ivoryio/${moduleName}`))
   const templateDir = join(moduleSrc, 'module')
   const testSrcDir = join(moduleSrc, 'cypress')
   const testTargetDir = join(projectRoot, 'cypress')
-  const moduleDir = join(projectRoot, 'src', 'modules', `@${moduleName}`)
+  const moduleDir = join(projectRoot, 'src', 'modules', `@${destinationName ?? moduleName}`)
 
   if (existsSync(templateDir)) {
     copySync(templateDir, moduleDir)

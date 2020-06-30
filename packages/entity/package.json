@@ -1,0 +1,7 @@
+{
+  "name": "@ivoryio/entity",
+  "version": "1.1.0-alpha",
+  "description": "Ivory CRUD entity template",
+  "main": "index.js",
+  "private": true
+}
