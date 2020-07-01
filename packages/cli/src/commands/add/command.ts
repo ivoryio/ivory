@@ -1,4 +1,4 @@
-import { red, bold } from 'chalk'
+import { red, bold, blue } from 'chalk'
 
 export const add = (actions: AddEntityCommandActions) => (module: SupportedModule): void => {
   const { copyModuleTemplate, injectAuthCode } = actions
@@ -22,13 +22,25 @@ export const add = (actions: AddEntityCommandActions) => (module: SupportedModul
   }
 }
 
-function addEntity({ copyModuleTemplate, transformEntityTemplate, addEntityToGraphQLSchema }: AddEntityCommandActions) {
-  // check amplify add api was done
-  // inquire params
+function addEntity({
+  copyModuleTemplate,
+  checkAmplifyApiExists,
+  transformEntityTemplate,
+  addEntityToGraphQLSchema,
+}: AddEntityCommandActions) {
+  const apiExists = checkAmplifyApiExists()
+  if (!apiExists) {
+    console.error(
+      `${red('error')} No amplify api found. Please make sure you've added an api by running ${blue(
+        'amplify add api'
+      )}`
+    )
+    process.exit(1)
+  }
+
   const params = inquireEntityParams()
 
   addEntityToGraphQLSchema(params)
-  // add params to graphql schema
   // amplify push
   copyModuleTemplate('entity', params.name.lower.singular)
   transformEntityTemplate(params)

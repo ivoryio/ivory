@@ -1,14 +1,16 @@
 import { add as buildAddCommand } from './command'
 import {
-  copyModuleTemplate,
   injectAuthCode,
+  copyModuleTemplate,
+  checkAmplifyApiExists,
   transformEntityTemplate,
   addEntityToGraphQLSchema,
 } from './actions'
 
 export const add = buildAddCommand({
-  copyModuleTemplate,
   injectAuthCode,
+  copyModuleTemplate,
+  checkAmplifyApiExists,
   transformEntityTemplate,
   addEntityToGraphQLSchema,
 })

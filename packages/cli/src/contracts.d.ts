@@ -54,6 +54,7 @@ interface TransformEntityParams {
 }
 
 interface AddEntityCommandActions {
+  checkAmplifyApiExists: () => boolean
   injectAuthCode: () => void
   transformEntityTemplate(params: TransformEntityParams)
   addEntityToGraphQLSchema(params: TransformEntityParams)
