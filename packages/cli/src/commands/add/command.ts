@@ -22,13 +22,15 @@ export const add = (actions: AddEntityCommandActions) => (module: SupportedModul
   }
 }
 
-function addEntity({ copyModuleTemplate, transformEntityTemplate }: AddEntityCommandActions) {
+function addEntity({ copyModuleTemplate, transformEntityTemplate, addEntityToGraphQLSchema }: AddEntityCommandActions) {
   // check amplify add api was done
   // inquire params
   const params = inquireEntityParams()
+
+  addEntityToGraphQLSchema(params)
   // add params to graphql schema
   // amplify push
-  copyModuleTemplate('entity', params.name.singular)
+  copyModuleTemplate('entity', params.name.lower.singular)
   transformEntityTemplate(params)
 
   // opt1 inject Entity Code (client.ts, ApolloProvider in Root.tsx) and install deps

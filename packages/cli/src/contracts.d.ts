@@ -56,5 +56,6 @@ interface TransformEntityParams {
 interface AddEntityCommandActions {
   injectAuthCode: () => void
   transformEntityTemplate(params: TransformEntityParams)
+  addEntityToGraphQLSchema(params: TransformEntityParams)
   copyModuleTemplate: (moduleName: string, destinationName?: string) => void
 }
