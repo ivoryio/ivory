@@ -3,7 +3,7 @@ import { readdirSync, existsSync, appendFileSync } from 'fs-extra'
 import { red, green } from 'chalk'
 import { template } from 'lodash'
 
-export const addEntityToGraphQLSchema = (params: TransformEntityParams): void => {
+export const addEntityToGraphQLSchema = (params: EntityParams): void => {
   const graphqlFilePath = findSchemaPath()
   if (!graphqlFilePath) {
     return
@@ -29,7 +29,7 @@ function findSchemaPath() {
   return join(apiDirPath, graphqlApis[0], 'schema.graphql')
 }
 
-function updateGraphqlSchema(schemaPath: string, params: TransformEntityParams) {
+function updateGraphqlSchema(schemaPath: string, params: EntityParams) {
   const schemaTemplate = `
 type <%- name.singular %> @model {
   id: ID!<% _.forEach(attributes, attr => { %>

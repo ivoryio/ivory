@@ -1,6 +1,6 @@
 import { red, bold, blue } from 'chalk'
 
-export const add = (actions: AddEntityCommandActions) => (module: SupportedModule): void => {
+export const add = (actions: AddEntityCommandActions) => async (module: SupportedModule): Promise<void> => {
   const { copyModuleTemplate, injectAuthCode } = actions
 
   switch (module) {
@@ -12,7 +12,7 @@ export const add = (actions: AddEntityCommandActions) => (module: SupportedModul
       copyModuleTemplate('ui-components')
       break
     case 'entity':
-      addEntity(actions)
+      await addEntity(actions)
       break
     default:
       console.error(
@@ -22,12 +22,15 @@ export const add = (actions: AddEntityCommandActions) => (module: SupportedModul
   }
 }
 
-function addEntity({
+async function addEntity({
+  amplifyPush,
   copyModuleTemplate,
+  inquireEntityParams,
   checkAmplifyApiExists,
   transformEntityTemplate,
   addEntityToGraphQLSchema,
 }: AddEntityCommandActions) {
+
   const apiExists = checkAmplifyApiExists()
   if (!apiExists) {
     console.error(
@@ -38,39 +41,14 @@ function addEntity({
     process.exit(1)
   }
 
-  const params = inquireEntityParams()
+  const params = await inquireEntityParams()
 
   addEntityToGraphQLSchema(params)
-  // amplify push
+  amplifyPush()
+  // extract queries, mutations and subscription
   copyModuleTemplate('entity', params.name.lower.singular)
   transformEntityTemplate(params)
 
   // opt1 inject Entity Code (client.ts, ApolloProvider in Root.tsx) and install deps
   // opt2 log how to continue
-}
-
-function inquireEntityParams() {
-  const name = { singular: 'BillingInvoice', plural: 'BillingInvoices' }
-  return {
-    name: {
-      ...changeFirstLetterCase(name, 'upper'),
-      lower: changeFirstLetterCase(name, 'lower'),
-    },
-    attributes: ['name', 'description'],
-  }
-}
-
-function changeFirstLetterCase(
-  { singular, plural }: EntityName,
-  target: 'lower' | 'upper'
-): EntityName {
-  let firstLetter = singular.slice(0, 1).toLowerCase()
-  if (target === 'upper') {
-    firstLetter = firstLetter.toUpperCase()
-  }
-
-  return {
-    singular: `${firstLetter}${singular.slice(1)}`,
-    plural: `${firstLetter}${plural.slice(1)}`,
-  }
 }

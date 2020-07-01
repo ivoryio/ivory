@@ -48,15 +48,17 @@ interface EntityNameWithLower extends EntityName {
   lower: EntityName
 }
 
-interface TransformEntityParams {
+interface EntityParams {
   name: EntityNameWithLower
   attributes: string[]
 }
 
 interface AddEntityCommandActions {
+  amplifyPush: () => void
   checkAmplifyApiExists: () => boolean
   injectAuthCode: () => void
-  transformEntityTemplate(params: TransformEntityParams)
-  addEntityToGraphQLSchema(params: TransformEntityParams)
+  inquireEntityParams: () => Promise<EntityParams>
+  transformEntityTemplate(params: EntityParams)
+  addEntityToGraphQLSchema(params: EntityParams)
   copyModuleTemplate: (moduleName: string, destinationName?: string) => void
 }

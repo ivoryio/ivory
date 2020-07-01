@@ -15,7 +15,7 @@ const entityFiles = [
 
 templateSettings.interpolate = /{{([\s\S]+?)}}/g
 
-export const transformEntityTemplate = ({ name, attributes }: TransformEntityParams): void => {
+export const transformEntityTemplate = ({ name, attributes }: EntityParams): void => {
   const projectRoot = process.cwd()
   const modulePath = join(projectRoot, 'src', 'modules', `@${name.singular}`)
 
