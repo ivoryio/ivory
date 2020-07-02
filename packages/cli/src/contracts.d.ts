@@ -1,5 +1,7 @@
 type GitPlatform = 'codecommit' | 'github' | 'other'
 type SupportedModule = 'auth' | 'entity' | 'components'
+type LogAction = (message: string, level?: 'info' | 'error') => void
+type CopyModuleTemplateAction = (moduleName: string, destinationName?: string) => void
 
 interface RepositoryInfo {
   platform: GitPlatform
@@ -21,6 +23,7 @@ interface AmplifyInitParams {
 }
 
 interface CreateCommandActions {
+  log: LogAction
   amplifyPush: () => void
   gitPush: () => Promise<void>
   amplifyAddAuth: () => Promise<void>
@@ -53,7 +56,6 @@ interface EntityParams {
   attributes: string[]
 }
 
-type CopyModuleTemplateAction = (moduleName: string, destinationName?: string) => void
 
 interface AddAuthCommandActions {
   injectAuthCode: () => void

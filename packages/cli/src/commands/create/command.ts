@@ -1,6 +1,7 @@
 import { green, blue } from "chalk"
 
 export const create = ({
+  log,
   gitPush,
   gitConfig,
   initAmplify,
@@ -28,7 +29,6 @@ export const create = ({
   createReactApp(projectName)
   configureApp({ projectName, awsProfile, repositoryInfo })
   deployInfrastructure({ projectName, awsProfile, repositoryInfo })
-  console.info('Adding ivory components');
   add('components')
 
   configureAwsSdkEnv(awsProfile)
@@ -48,10 +48,10 @@ export const create = ({
     await gitPush()
   }
 
-  console.info();
-  console.info(green(`We're done, now it's up to you,`));
-  console.info('we suggest that you begin by typing:');
-  console.info();
-  console.info(blue(`  cd`), projectName);
-  console.info(blue(`  yarn start`));
+  log('');
+  log(green(`We're done, now it's up to you,`));
+  log('we suggest that you begin by typing:');
+  log('');
+  log(`  ${blue('cd')} ${projectName}`);
+  log(blue(`  yarn start`));
 }

@@ -2,6 +2,7 @@ import assert from 'assert'
 import { create } from '../commands/create/command'
 
 const doNothingActions = {
+  log: () => {},
   gitPush: async (): Promise<void> => {},
   gitConfig: () => {},
   addCommand: () => {},
