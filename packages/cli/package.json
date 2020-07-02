@@ -8,7 +8,7 @@
   },
   "scripts": {
     "publish:npm": "yarn test && npm publish --access public --tag alpha",
-    "test": "yarn build && mocha tests/*",
+    "test": "yarn build && mocha -r ts-node/register src/tests/*",
     "build": "rm -r ./lib && yarn tsc",
     "lint": "eslint './src/**/*.{ts,tsx}'"
   },
@@ -41,10 +41,12 @@
     "typescript": "^3.9.2"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.11",
     "@types/fs-extra": "^9.0.1",
     "@types/ini": "^1.3.30",
     "@types/inquirer": "^6.5.0",
     "@types/lodash": "^4.14.157",
+    "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.1",
     "@types/shelljs": "^0.8.8",
     "@typescript-eslint/eslint-plugin": "^3.0.1",
@@ -52,7 +54,8 @@
     "eslint": "^7.1.0",
     "eslint-plugin-prettier": "^3.1.3",
     "mocha": "^7.1.2",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "ts-node": "^8.10.2"
   },
   "peerDependencies": {
     "@aws-amplify/cli": "^4.20.0"

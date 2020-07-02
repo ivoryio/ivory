@@ -1,18 +1,17 @@
-import { red, bold, blue } from 'chalk'
+import { red, bold } from 'chalk'
 
-export const add = (actions: AddEntityCommandActions) => async (module: SupportedModule): Promise<void> => {
-  const { copyModuleTemplate, injectAuthCode } = actions
-
+export const add = ({ addAuth, addEntity, addComponents }: AddSubcommands) => async (
+  module: SupportedModule
+): Promise<void> => {
   switch (module) {
     case 'auth':
-      copyModuleTemplate('auth')
-      injectAuthCode()
+      addAuth()
       break
     case 'components':
-      copyModuleTemplate('ui-components')
+      addComponents()
       break
     case 'entity':
-      await addEntity(actions)
+      await addEntity()
       break
     default:
       console.error(
@@ -20,35 +19,4 @@ export const add = (actions: AddEntityCommandActions) => async (module: Supporte
       )
       break
   }
-}
-
-async function addEntity({
-  amplifyPush,
-  copyModuleTemplate,
-  inquireEntityParams,
-  checkAmplifyApiExists,
-  transformEntityTemplate,
-  addEntityToGraphQLSchema,
-}: AddEntityCommandActions) {
-
-  const apiExists = checkAmplifyApiExists()
-  if (!apiExists) {
-    console.error(
-      `${red('error')} No amplify api found. Please make sure you've added an api by running ${blue(
-        'amplify add api'
-      )}`
-    )
-    process.exit(1)
-  }
-
-  const params = await inquireEntityParams()
-
-  addEntityToGraphQLSchema(params)
-  amplifyPush()
-  // extract queries, mutations and subscription
-  copyModuleTemplate('entity', params.name.lower.singular)
-  transformEntityTemplate(params)
-
-  // opt1 inject Entity Code (client.ts, ApolloProvider in Root.tsx) and install deps
-  // opt2 log how to continue
 }

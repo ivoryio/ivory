@@ -53,12 +53,28 @@ interface EntityParams {
   attributes: string[]
 }
 
+type CopyModuleTemplateAction = (moduleName: string, destinationName?: string) => void
+
+interface AddAuthCommandActions {
+  injectAuthCode: () => void
+  copyModuleTemplate: CopyModuleTemplateAction
+}
+
+interface AddComponentsCommandActions {
+  copyModuleTemplate: CopyModuleTemplateAction
+}
+
 interface AddEntityCommandActions {
   amplifyPush: () => void
   checkAmplifyApiExists: () => boolean
-  injectAuthCode: () => void
   inquireEntityParams: () => Promise<EntityParams>
   transformEntityTemplate(params: EntityParams)
   addEntityToGraphQLSchema(params: EntityParams)
-  copyModuleTemplate: (moduleName: string, destinationName?: string) => void
+  copyModuleTemplate: CopyModuleTemplateAction
+}
+
+interface AddSubcommands {
+  addEntity: () => Promise<void>
+  addAuth: () => void
+  addComponents: () => void
 }
