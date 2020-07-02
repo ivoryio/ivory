@@ -1,6 +1,6 @@
 type GitPlatform = 'codecommit' | 'github' | 'other'
 type SupportedModule = 'auth' | 'entity' | 'components'
-type LogAction = (message: string, level?: 'info' | 'error') => void
+type LogAction = (message: string, level?: 'info' | 'error' | 'fatal') => void
 type CopyModuleTemplateAction = (moduleName: string, destinationName?: string) => void
 
 interface RepositoryInfo {
@@ -67,11 +67,12 @@ interface AddComponentsCommandActions {
 }
 
 interface AddEntityCommandActions {
+  log: LogAction
   amplifyPush: () => void
   checkAmplifyApiExists: () => boolean
   inquireEntityParams: () => Promise<EntityParams>
-  transformEntityTemplate(params: EntityParams)
-  addEntityToGraphQLSchema(params: EntityParams)
+  transformEntityTemplate: (params: EntityParams) => void
+  addEntityToGraphQLSchema: (params: EntityParams) => void
   copyModuleTemplate: CopyModuleTemplateAction
 }
 

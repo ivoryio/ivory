@@ -9,6 +9,7 @@
   "scripts": {
     "publish:npm": "yarn test && npm publish --access public --tag alpha",
     "test": "yarn build && mocha -r ts-node/register src/tests/*",
+    "test:watch": "mocha --require ts-node/register --watch-files src --watch \"src/tests/**/*.test.ts\"",
     "build": "rm -r ./lib && yarn tsc",
     "lint": "eslint './src/**/*.{ts,tsx}'"
   },

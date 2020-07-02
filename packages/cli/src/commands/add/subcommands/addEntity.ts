@@ -1,6 +1,7 @@
-import { red, blue } from 'chalk'
+import { blue } from 'chalk'
 
 export const addEntity = ({
+  log,
   amplifyPush,
   copyModuleTemplate,
   inquireEntityParams,
@@ -10,16 +11,15 @@ export const addEntity = ({
 }: AddEntityCommandActions) => async (): Promise<void> => {
   const apiExists = checkAmplifyApiExists()
   if (!apiExists) {
-    console.error(
-      `${red('error')} No amplify api found. Please make sure you've added an api by running ${blue(
+    return log(
+      `No amplify api found. Please make sure you've added an api by running ${blue(
         'amplify add api'
-      )}`
+      )}`,
+      'fatal'
     )
-    process.exit(1)
   }
 
   const params = await inquireEntityParams()
-
   addEntityToGraphQLSchema(params)
   amplifyPush()
   // extract queries, mutations and subscription

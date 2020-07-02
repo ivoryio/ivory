@@ -1,3 +1,4 @@
+import { log } from '../../actions/logger'
 import { add as buildAddCommand } from './command'
 import { amplifyPush } from '../../actions/amplify'
 import { inquireEntityParams } from '../../actions/inquire'
@@ -21,6 +22,7 @@ const addAuth = buildAddAuth({
 })
 
 const addEntity = buildAddEntity({
+  log,
   amplifyPush,
   copyModuleTemplate,
   inquireEntityParams,
